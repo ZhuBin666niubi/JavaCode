@@ -6,16 +6,16 @@ import java.util.Date;
 
 public class Example11 {
     public static void main(String[] args) {
-        Split();
+        String str="hello java";
+        StringBuilder(str);
     }
     //在Example10中我们学习了字符串的基本概念以及一些字符串的常用方法，接下来我们来学习如何对字符串进行操作。
     public static void GetSub(){
         //String提供了substring()方法，该方法可以获取字符串中一段子串。
-        String s="hello world";
-        String s1=s.substring(0,5);
-        System.out.println(s1);
-        String s2=s.substring(6);
-        System.out.println(s2);
+        String str="hello java";
+        String str1=str.substring(0);
+        System.out.println(str1);
+        String str2=str.substring(3,9);
     }
     public static void RemoveSpace(){
         //String提供了trim()方法返回字符串的副本，并且会忽略前导空格和后导空格。中间的空格不会被去掉
@@ -91,5 +91,12 @@ public class Example11 {
         //String类的静态Format方法用于创建格式化的字符串。
         Date date=new Date();
         String s=String.format("当前时间是%tF",date);
+    }
+    public static void StringBuilder(String str){
+        StringBuilder sb=new StringBuilder(str);
+        for(int i=1;i<=10;i++){
+            sb.append(i);
+        }
+        System.out.println(sb);
     }
 }
