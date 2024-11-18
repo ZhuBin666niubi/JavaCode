@@ -80,4 +80,20 @@ public class review01 {
         }
         return result;
     }
+    public static void BubbleSort(int[] arr){
+        if(arr.length<=1){
+            System.out.println("数组长度为1，不需要排序");
+        }
+        else{
+            for(int times=1;times<arr.length;times++){
+                for(int index=0;index<arr.length-times;index++){
+                    if(arr[index]>arr[index+1]){
+                        int temp=arr[index];
+                        arr[index]=arr[index+1];
+                        arr[index+1]=temp;
+                    }
+                }
+            }
+        }
+    }
 }
