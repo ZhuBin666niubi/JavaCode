@@ -1,6 +1,6 @@
 package com.zero.Review;
-
-public class review01 {
+//11月17号第一次代码题目测试，测试结果不大行，对代码的逻辑要了解清楚再写，写代码的时候要注意规范命名。
+public class Test01 {
     public static void main(String[] args) {
         String src = "hello world";
         String dest = "ll";

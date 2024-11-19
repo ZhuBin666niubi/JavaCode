@@ -137,7 +137,7 @@ public class Example13 {
         int arr[]=new int[]{23,45,67,89,12};
         for(int i=1;i<arr.length;i++){
             int index=0;
-            for(int j=1;j<arr.length-i;j++){
+            for(int j=1;j<=arr.length-i;j++){
                 if(arr[j]>arr[index]){
                     index=j;
                 }
