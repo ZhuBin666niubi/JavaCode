@@ -2,9 +2,9 @@ package com.zero.Review;
 //11月17号第一次代码题目测试，测试结果不大行，对代码的逻辑要了解清楚再写，写代码的时候要注意规范命名。
 public class Test01 {
     public static void main(String[] args) {
-        String src = "hello world";
-        String dest = "ll";
-        boolean result = IsSub(src,dest);
+        String src="hello world";
+        String dest="hc";
+        boolean result=IsContains(src,dest);
         System.out.println(result);
     }
 
@@ -95,5 +95,56 @@ public class Test01 {
                 }
             }
         }
+    }
+    public static void ChooseSort(int arr[]){
+        //选择排序的逻辑是，循环找到数组中的最大元素，放在最后，每次循环放一个，直到排序完成
+        int len=arr.length;
+        if(len<=1){
+            return;
+        }else{
+            for(int i=1;i<len;i++){
+                int index=0;
+                for(int j=1;j<=len-i;j++){
+                    if(arr[index]<arr[j]){
+                        index=j;//记录下最大的数值的下标
+                    }
+                }
+                int temp=arr[index];
+                arr[index]=arr[len-i];
+                arr[len-i]=temp;
+            }
+        }
+        for(int i:arr){
+            System.out.println(i);
+        }//会有一些粗心错误，多熟悉即可。
+    }
+    public static boolean IsContains(String src,String dest) {
+        //现在我们来复习一下如何判断dest是否是src的子串
+        if (src.length() == 0 || dest.length() == 0) {
+            return false;
+        } else {
+            for (int index = 1; index <= src.length(); index++) {
+                //先来找到第一个相同的字符
+                if (src.charAt(index - 1) != dest.charAt(0)) {
+                    break;//如果不是，我们继续循环找
+                } else {
+                    //如果是，我们分情况判断
+                    if (src.length() - index < dest.length()) {
+                        return false;
+                    } else {
+                        //开始验证剩下的字符是否相同
+                        for (int index_dest = 1; index_dest < dest.length(); index_dest++) {
+                            if (src.charAt(index - 1 + index_dest) != dest.charAt(index_dest)) {
+                                break;
+                            }
+                            if (index_dest == dest.length() - 1) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
