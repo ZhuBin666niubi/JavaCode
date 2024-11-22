@@ -69,4 +69,56 @@ public class LinkedList {//为了锻炼代码思维，我们先来学习一下�
             return len;
         }
     }
+
+    public static class Solution {
+        class RandomListNode {
+            int value;
+            RandomListNode next;
+            RandomListNode random;
+
+            public RandomListNode(int value) {
+                this.value = value;
+                this.next = null;
+                this.random = null;
+            }
+        }
+        public RandomListNode copyRandomList(RandomListNode head) {
+            if (head == null) {
+                return null;
+            }
+
+            // Step 1: Create a new list with only value and next pointers set
+            RandomListNode current = head;
+            RandomListNode newHead = new RandomListNode(current.value);
+            RandomListNode newCurrent = newHead;
+
+            while (current.next != null) {
+                newCurrent.next = new RandomListNode(current.next.value);
+                current = current.next;
+                newCurrent = newCurrent.next;
+            }
+
+            // Step 2: Set the random pointers in the new list
+            current = head;
+            newCurrent = newHead;
+
+            while (current != null) {
+                if (current.random != null) {
+                    // Find the corresponding node in the new list
+                    RandomListNode temp = head;
+                    RandomListNode newTemp = newHead;
+                    while (temp != current.random) {
+                        temp = temp.next;
+                        newTemp = newTemp.next;
+                    }
+                    newCurrent.random = newTemp;
+                }
+                current = current.next;
+                newCurrent = newCurrent.next;
+            }
+
+            return newHead;
+        }
+
+    }
 }

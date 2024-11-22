@@ -131,4 +131,46 @@ public class Test {
             }
         }
     }
+    public static Node PublicNode(LinkedList list1,LinkedList list2){
+        //现在我们来看看怎么寻找两个链表的公共节点。
+        //思路是，让两个节点分别从头部出发，当某一个节点到达链表尾部时，就从另外一个链表的头部开始走，当两个current遍历节点
+        //相同时，说明这个就是公共节点。如果一直不同说明不存在公共节点。
+        if(list1.head==null||list2.head==null){
+            return null;
+        }
+        Node current1=list1.head;
+        Node current2=list2.head;
+        while(current1!=current2){
+            current1=current1.next;
+            current2=current2.next;
+            if(current1==null){
+                current1=list2.head;
+            }
+            if(current2==null){
+                current2=list1.head;
+            }
+        }
+        if(current1!=null){
+            Node result=current1;
+            return result;
+        }
+        else{
+            return null;
+        }
+    }
+    public static void DeleteRepeatNode(LinkedList list){
+        //现在来学习怎么删除链表中的重复节点。
+        Node current=list.head;
+        while(current!=null){
+            Node temp=current;
+            while(temp.next!=null){
+                if(temp.next.data== current.data){
+                    temp.next=temp.next.next;
+                }else{
+                    temp=temp.next;
+                }
+            }
+            current=current.next;
+        }
+    }
 }
