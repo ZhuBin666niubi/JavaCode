@@ -14,157 +14,228 @@ public class Excise {
         list2.addNode(6);
         list2.addNode(7);
         list2.addNode(8);
-        Node result=Merge(list1,list2);
-        while (result != null) {
-            System.out.print(result.value + "->");
-            result = result.next;
-        }
     }
 
     public static void ReversePrint(LinkedList list) {
-        //从尾到头反向打印链表
+        //设计一个方法，实现反向打印链表。
+        //第一种思路：设置一个新链表，用头插法将链表的节点插入到新链表中，最后打印新链表。
+        if (list.head == null || list.head.next == null) {
+            list.printList();
+        }//如果链表为空或者链表中只有一个节点，那就直接打印
+        ListNode current = list.head;
+        LinkedList newList = new LinkedList();
+        while (current != null) {
+            ListNode tempnode = new ListNode(current.value);
+            tempnode.next = newList.head;
+            newList.head = tempnode;
+            current = current.next;
+        }//这样就实现了头插法设置新链表。
+        newList.printList();// 或者这里也可以直接从newHead开始遍历打印。
+    }
+
+    public static void ReversePrintList(LinkedList list) {
+        //第二种思路：原地逆转链表之后打印
+        if (list.head == null || list.head.next == null) {
+            list.printList();
+        }//如果链表为空或者链表只有一个元素，那么就直接打印即可。
+        //原地逆置链表需要两个辅助节点，marknode和tempnode，mark记录链表原来的头部，temp记录链表原来的头部的下一个节点。
+        //我们每次把链表头节点后的节点放在链表的第一个位置，并且实时更新头节点，就可以把链表逆转。
+        ListNode markNode = list.head;
+        ListNode tempNode = list.head.next;
+        while (tempNode != null) {
+            markNode.next = tempNode.next;
+            tempNode.next = list.head;
+            list.head = tempNode;
+            tempNode = markNode.next;
+        }//实现逆转
+        list.printList();
+    }
+
+    public static ListNode GetKToLastNode(LinkedList list, int k) {
+        //获取链表中的倒数第k个节点。
+        //第一个思路：直接遍历链表，获取链表的总体长度，然后遍历链表，找到第length-k+1个节点。
         if (list.head == null) {
-            return;//链表为空，直接返回。
+            return null;
         }
-        if (list.head.next == null) {
-            System.out.println(list.head.value);
-            return;
-        }
-        //两种想法，第一，用一个新的链表，记录反向顺序的原链表，然后打印新链表；第二个，直接逆转原链表，然后打印。
-        Node current = list.head;
-        Node newHead = new Node(current.value);
+        int lenth = 1;
+        ListNode current = list.head;
         while (current.next != null) {
             current = current.next;
-            Node temp = new Node(current.value);
-            temp.next = newHead;
-            newHead = temp;
-        }//每次把新节点插入新链表的头部，这样就实现了反向顺序。
-        current = newHead;
-        while (current != null) {
-            System.out.print(current.value + "->");
-            current = current.next;
-        }
-        System.out.print("null");//这一部分也可以直接用LinkedList中的print解决。
-    }
-
-    public static void ReversePrint2(LinkedList list) {
-        //这里是第二种想法：在原链表中实现逆转，再进行打印。
-        if (list.head == null) {
-            return;
-        }
-        if (list.head.next == null) {
-            System.out.println(list.head.value);
-            return;
-        }//只有一个节点的话就直接打印。
-        Node marknode = list.head;
-        Node tempnode = marknode.next;
-        while (tempnode != null) {
-            marknode.next = tempnode.next;
-            tempnode.next = list.head;
-            list.head = tempnode;
-            tempnode = marknode.next;
-        }//实现链表逆转
-        list.print();
-    }
-
-    public static Node GetKthNode(LinkedList list, int k) {
-        //解决这个问题，第一个想法是，直接先遍历一遍链表，记录一下链表的长度，然后根据链表的长度，找到对应的节点。
-        if (list.head == null) {
-            return null;
-        }//链表为空，直接返回。
-        int len = 0;
-        Node current = list.head;
-        while (current != null) {
-            current = current.next;
-            len++;
-        }//遍历链表，获取链表的长度。
-        if (k > len) {
+            lenth++;
+        }//得到链表的总体长度
+        if (k > lenth) {
             return null;
         } else {
-            current = list.head;//将current放回头节点位置，开始遍历寻找倒数第k个节点。
-            for (int times = 1; times < len - k + 1; times++) {
+            current = list.head;
+            for (int times = 1; times <= lenth - k; times++) {
                 current = current.next;
-            }//注意这里的循环条件，times记录的是current的移动次数。
+            }
             return current;
-        }
+        }//获取倒数第k个节点。
     }
 
-    public static Node GetKthNode2(LinkedList list, int k) {
-        //第二种想法，我们设置两个节点，一个节点先走到第k个节点，然后两个节点同时出发，当第一个节点到达链表尾部的时候，
-        //第二个节点所在的位置就是倒数第k个节点。
-        if (list.head == null) {
+    public static ListNode GetkToLastNode(LinkedList list, int k){
+        //第二种思路：设置两个节点，一个先出发，走到第k个节点，然后两个节点一起出发，当第一个节点到达链表尾部，第二个节点
+        //所在位置就是倒数第k个节点。
+        if(list.head==null){
             return null;
         }
-        Node firstnode = list.head;
-        Node secondnode = list.head;
-        for (int times = 1; times < k; times++) {
-            firstnode = firstnode.next;
+        ListNode firstNode = list.head;
+        ListNode secondNode = null;
+        int index=1;
+        while(firstNode!=null&&index<k){
+            firstNode=firstNode.next;
+            index++;
+        }//第一个节点先出发走到第k个节点的位置。
+        if(firstNode!=null){
+            secondNode=list.head;
+        }//如果链表长度大于k，那么secondNode就为null。
+        while(firstNode.next!=null){
+            firstNode=firstNode.next;
+            secondNode=secondNode.next;
         }
-        while (firstnode.next != null) {
-            firstnode = firstnode.next;
-            secondnode = secondnode.next;
-        }
-        return secondnode;
-    }
+        return secondNode;
+    }//方法都存在的问题是，当不符合条件的时候，会直接报错。
 
-    public static Node CycleEntryNode(LinkedList list) {
-        //寻找链表中环的入口节点。
-        if (list.head == null || list.head.next == null) {
+    public static ListNode FindCycleEntry(LinkedList list){
+        //寻找环的入口节点。思路是：设置快慢两个节点，快节点的速度是慢节点的两倍，当快慢节点相遇，说明链表中是有环的，
+        //相遇的时候，快节点肯定是比慢节点多跑了一圈，此时我们把快节点或者慢节点设置回头节点，然后两个节点一起出发，两个节点
+        //以同样的速度出发，相遇的时候就是环的入口节点。
+        if(list.head==null||list.head.next==null){
             return null;
-        }//链表为空，或者链表中只有一个节点，直接返回。
-        Node fastnode = list.head;
-        Node slownode = list.head;
-        while (fastnode != null && fastnode.next != null) {
-            fastnode = fastnode.next.next;
-            slownode = slownode.next;
-            if (slownode == fastnode) {
+        }
+        ListNode fastNode=list.head;
+        ListNode slowNode=list.head;
+        while(fastNode!=null&&fastNode.next!=null){
+            fastNode=fastNode.next.next;
+            slowNode=slowNode.next;
+            if(fastNode==slowNode){
                 break;
             }
-        }
-        if (fastnode == null || fastnode.next == null) {
+        }//找到相遇点
+        if(fastNode==null||fastNode.next==null){
             return null;
-        }//快慢指针没有相遇，说明没有环。
-        slownode = list.head;
-        while (slownode != fastnode) {
-            slownode = slownode.next;
-            fastnode = fastnode.next;
-        }//快慢指针再次相遇，就是环的入口节点。
-        return slownode;
+        }
+        slowNode=list.head;
+        while(slowNode!=fastNode){
+            slowNode=slowNode.next;
+            fastNode=fastNode.next;
+        }
+        return slowNode;
     }
 
-    public static Node Merge(LinkedList list1, LinkedList list2) {
-        //合并两个有序链表，链表1和链表2都是有序的。
-        if (list1.head == null) {
+    public static ListNode MergeList(LinkedList list1,LinkedList list2){
+        //思路：如果某一个链表为空，就直接返回链表。都不为空的话，我们设置一个虚拟的头节点，然后
+        //遍历找较小的节点，以此构建新的链表。
+        if(list1.head==null){
             return list2.head;
         }
-        if (list2.head == null) {
+        if(list2.head==null){
             return list1.head;
-        }//如果某个链表为空，那么直接返回剩下那个非空的链表。
-        Node temphead = new Node(0);//设置一个虚拟的头节点。
-        Node current1 = list1.head;
-        Node current2 = list2.head;
-        while (current1 != null && current2 != null) {
-            if (current1.value > current2.value) {
-                temphead.next = current1;
-                current1 = current1.next;
-            } else {
-                temphead.next = current2;
-                current2 = current2.next;
-            }
-        }//按从小到大的顺序连接链表。
-        if (current1 == null) {
-            while (current2 != null) {
-                temphead.next = current2;
-                current2 = current2.next;
+        }
+        ListNode newHead=new ListNode(0);
+        ListNode current1=list1.head;
+        ListNode current2=list2.head;
+        ListNode marknode=newHead;
+        while(current1!=null&&current2!=null){
+            if(current1.value<current2.value){
+                marknode.next=current1;
+                marknode=current1;
+                current1=current1.next;
+            } else{
+                marknode.next=current2;
+                marknode=current2;
+                current2=current2.next;
             }
         }
-        if (current2 == null) {
-            while (current1 != null) {
-                temphead.next = current1;
-                current1 = current1.next;
+        if(current1==null){
+            while(current2!=null){
+                marknode.next=current2;
+                marknode=current2;
+                current2=current2.next;
             }
         }
-        return temphead.next;
-    }//还是有点问题·，比较大的先插入结果是不对的。
+        if(current2==null){
+            while(current1!=null){
+                marknode.next=current1;
+                marknode=current1;
+                current1=current1.next;
+            }
+        }
+        newHead=newHead.next;
+        return newHead;
+    }//需要注意的是，我们只是连接链表，对于链表中的节点是不做过多改变的。
+
+    public static void DeleteRepeatedNode(LinkedList list){
+        //删除链表中的重复节点。这里的链表是有序的。
+        if(list.head==null||list.head.next==null){
+            return;
+        }
+        ListNode current=list.head;
+        while(current.next!=null){
+            if(current.value==current.next.value){
+                current.next=current.next.next;
+            } else{
+                current=current.next;
+            }
+        }
+    }
+
+    public static ListNode PublicNode(LinkedList list1,LinkedList list2){
+        //寻找两个链表的公共节点。
+        if(list1.head==null||list2.head==null){
+            return null;
+        }
+        ListNode current1=list1.head;
+        ListNode current2=list2.head;
+        while(current1!=current2){
+            current1=(current1==null?list2.head:current1.next);
+            current2=(current2==null?list1.head:current2.next);
+        }//找到公共节点。可以模拟两链表相交的情况，会发现让两个节点相同速度分别从表1和表2的头节点出发，
+        //当某个节点到达链表尾部的时候，让其回到另外一个链表的头部，这样在它们第一次相遇的时候就会是两个链表的第一个公共节点。
+        return current1;
+    }
+
+    public static ListNode publicNode(LinkedList list1,LinkedList list2){
+        //还有一种方法是计算两个链表的长度差值，然后让较长的节点先走差值步，然后两个节点一起出发，当两个节点相遇的时候，就是
+        //两个链表的公共节点。
+        if(list1.head==null||list2.head==null){
+            return null;
+        }
+        int len1=list1.getLength();
+        int len2=list2.getLength();
+        ListNode current1=list1.head;
+        ListNode current2=list2.head;
+        int diff=0;
+        if(len1>len2){
+            diff=len1-len2;
+            while(diff>0){
+                current1=current1.next;
+                diff--;
+            }
+            while(current1!=current2){
+                current1=current1.next;
+                current2=current2.next;
+            }
+            return current1;
+        }else if(len2>len1){
+            diff=len2-len1;
+            while(diff>0){
+                current2=current2.next;
+                diff--;
+            }
+            while(current1!=current2){
+                current1=current1.next;
+                current2=current2.next;
+            }
+            return current1;
+        }else{
+            while(current1!=current2){
+                current1=current1.next;
+                current2=current2.next;
+            }
+            return current1;
+        }
+    }
 }
 

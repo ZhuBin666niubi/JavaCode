@@ -51,35 +51,34 @@ public class Solution {
     这样就能找到对应的random指针。但是这个方法缺点非常明显，复制完链表需要遍历的次数太多了，时间复杂度很高。
      */
     public static RandomListNode copyRandomList2(RandomListNode head) {
-        //现在我们来尝试一种新的方法，我们现在原链表中插入复制节点，然后在原链表中把复制节点的random指针对应设置好，
-        //再把两个链表分开。
-        if (head == null) {
+        //思路：设置复制节点，然后分开两个链表即可。
+        if(head==null){
             return null;
         }
-        RandomListNode current = head;
-        while (current != null) {
-            RandomListNode newNode = new RandomListNode(current.value);
-            newNode.next = current.next;
-            current.next = newNode;
-            current = newNode.next;
-        }//在原链表的每一个节点后面设置复制节点。
-        current = head;
-        while (current != null) {
-            if (current.random != null) {
-                current.next.random = current.random.next;
-            }
-            current = current.next.next;
-        }//设置复制节点的random指针。
-        current = head;
-        RandomListNode newHead = current.next;
+        RandomListNode current=head;
         while(current!=null){
-            RandomListNode copy=current.next;
-            current.next=copy.next;
-            if(copy.next!=null){
-                copy.next=copy.next.next;
+            RandomListNode copyNode=new RandomListNode(current.value);
+            copyNode.next=current.next;
+            current.next=copyNode;
+            current=current.next.next;
+        }//设置好了复制节点和复制节点的值
+        while(current!=null){
+            if(current.random!=null){
+                current.next.random=current.random.next;
+            }
+            current=current.next.next;
+        }
+        current=head;
+        RandomListNode newHead=head.next;
+        RandomListNode newCurrent=newHead;
+        while(current!=null){
+            current.next=current.next.next;
+            if(newCurrent.next!=null){
+                newCurrent.next=newCurrent.next.next;
             }
             current=current.next;
-        }//设置好newHead，然后将copy节点和newHead连接起来，就是新链表了。
+            newCurrent=newCurrent.next;
+        }
         return newHead;
     }
 }
