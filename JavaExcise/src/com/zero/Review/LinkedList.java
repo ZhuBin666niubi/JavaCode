@@ -2,7 +2,7 @@ package com.zero.Review;
 
 public class LinkedList {
     //头结点
-    ListNode head;
+    public ListNode head;
 
     public LinkedList() {
         this.head = null;

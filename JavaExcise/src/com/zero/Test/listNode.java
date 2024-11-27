@@ -1,10 +1,10 @@
 package com.zero.Test;
 
-public class ListNode {
+public class listNode {
     int value;
-    ListNode next;
+    public listNode next;
 
-    public ListNode(int value)
+    public listNode(int value)
     {
         this.value = value;
     }

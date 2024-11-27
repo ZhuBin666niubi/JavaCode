@@ -2,7 +2,7 @@ package com.zero.Test;
 
 public class Excise {
     public static void main(String[] args) {
-        LinkedList list1 = new LinkedList();
+        linkedList list1 = new linkedList();
         list1.addNode(1);
         list1.addNode(2);
         list1.addNode(3);
@@ -19,14 +19,14 @@ public class Excise {
      * @param list
      * @param k
      */
-    public static void DeleteKToLastNode(LinkedList list, int k) {
+    public static void DeleteKToLastNode(linkedList list, int k) {
         //首先判断k的值是否有问题
         if(k<=0){
             return;
         }
-        ListNode DummyHead=new ListNode(0);
+        listNode DummyHead=new listNode(0);
         DummyHead.next=list.head;
-        ListNode current=DummyHead;
+        listNode current=DummyHead;
         int index=0;
         while(current!=null&&index<k){
             current=current.next;
@@ -35,7 +35,7 @@ public class Excise {
         if(current==null){
             return;
         }//如果current为空，说明链表长度小于k，直接返回。然后就是，如果链表为空，也可以进入这个判断。所以不用再加判断。
-        ListNode preNode=DummyHead;
+        listNode preNode=DummyHead;
         while(current.next!=null){
             preNode=preNode.next;
             current=current.next;
@@ -53,14 +53,14 @@ public class Excise {
     /**
      *
      */
-    public static void ReversePartNode(LinkedList list,int k,int m){
+    public static void ReversePartNode(linkedList list, int k, int m){
         //首先先判断一下k和m两个参数的值是否有问题
         if(k<=0||m<=0||k>=m){
             return;
         }
-        ListNode DummyHead=new ListNode(0);//设置一个虚拟头节点
+        listNode DummyHead=new listNode(0);//设置一个虚拟头节点
         DummyHead.next=list.head;
-        ListNode current=DummyHead;
+        listNode current=DummyHead;
         int index=0;
         while(current!=null&&index<k){
             current=current.next;
@@ -69,9 +69,9 @@ public class Excise {
         if(current==null){
             return;
         }//如果current为空，说明链表长度小于k，直接返回。
-        ListNode tempHead=current;
-        ListNode markNode=current;
-        ListNode nextNode=current.next;
+        listNode tempHead=current;
+        listNode markNode=current;
+        listNode nextNode=current.next;
         int count=0;//记录反转操作的次数
         while(nextNode!=null&&count<m-k){
             markNode.next=nextNode.next;
@@ -85,7 +85,7 @@ public class Excise {
             return;
         }//如果count不等于m-k，说明链表长度小于m，直接返回。
         //这里有个问题，就是链表长度小于m时，还是进行了一些操作的。会导致原来的链表发生变化。晚点思考怎么解决。
-        ListNode preNode=DummyHead;
+        listNode preNode=DummyHead;
         index=0;
         while(index<k-1){
             preNode=preNode.next;

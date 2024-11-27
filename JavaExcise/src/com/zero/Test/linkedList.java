@@ -1,10 +1,14 @@
 package com.zero.Test;
 
-public class LinkedList {
-    ListNode head;
+public class linkedList {
+    public listNode head;
 
-    public LinkedList() {
+    public linkedList() {
         head = null;
+    }
+
+    public linkedList(listNode head) {
+        this.head = head;
     }
 
     /**
@@ -14,11 +18,11 @@ public class LinkedList {
      */
     public void addNode(int value) {
         if (head == null) {
-            ListNode newnode = new ListNode(value);
+            listNode newnode = new listNode(value);
             head = newnode;
         } else {
-            ListNode newNode = new ListNode(value);
-            ListNode current = head;
+            listNode newNode = new listNode(value);
+            listNode current = head;
             while (current.next != null) {
                 current = current.next;
             }
@@ -31,17 +35,12 @@ public class LinkedList {
      */
     public void PrintList() {
         if (head != null) {
-            ListNode current = head;
+            listNode current = head;
             while (current != null) {
                 System.out.print(current.value + "->");
                 current = current.next;
             }
         }//如果链表为空，直接打印null，不为空则执行上面的打印。
-        System.out.print("null");
+        System.out.println("null");
     }
-
-    /**
-     * 获取链表的长度
-     */
-
 }
